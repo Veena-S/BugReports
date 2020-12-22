@@ -27,6 +27,11 @@ export default function bugs(dbModels) {
         response.send(err); });
   });
 
+  /**
+   * Function reads all the data from the Bugs table and send the JSON converted data as reposnse
+   * @param request - http request
+   * @param response - http response
+   */
   const getAllBugs = (request, response) => {
     console.log('getAllBugs');
     dbModels.Bug.findAll()

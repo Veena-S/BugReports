@@ -67,12 +67,6 @@ const displayBugData = (bugData) => {
   {
     divNewBugsList = createAndAppendDivElement();
   }
-  /*
-  console.log(`new bug id: ${response.data.id}`);
-      console.log(`new bug problem: ${response.data.problem}`);
-      console.log(`new bug error text: ${response.data.errorText}`);
-      console.log(`new bug commit: ${response.data.commit}`);
-  */
   const pIDEl = document.createElement('p');
   pIDEl.innerHTML = `Id: ${bugData.id}`;
   divNewBugsList.appendChild(pIDEl);
@@ -110,12 +104,6 @@ const postNewBug = () => {
       console.log(`new bug error text: ${response.data.errorText}`);
       console.log(`new bug commit: ${response.data.commit}`);
 
-      // console.log(`Response: ${response.data}`);
-      // console.log(response.status);
-      // console.log(response.statusText);
-      // console.log(response.headers);
-      // console.log(response.config);
-
       // After getting the response, hide the form elements and show the list of bugs
       clearAndToggleNewBugForm('none');
       displayBugData(response.data);
@@ -126,9 +114,21 @@ const postNewBug = () => {
 };
 
 /**
+ * Function to get all the features list from the server and
+ * to create button representing each feature
+ */
+const getAllFeaturesElement = () => {
+
+};
+
+/**
  * Function to create all the elements to submit a new bug
  */
 const createNewBugForm = () => {
+  // When a form renders to create a bug,
+  // make a request to the database to get the list of all features.
+  const divFeatureElement = getAllFeaturesElement();
+
   if (divFormElement === null)
   {
     divFormElement = createAndAppendDivElement();
