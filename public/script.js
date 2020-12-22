@@ -62,7 +62,7 @@ const clearAndToggleNewBugForm = (displayStyle) => {
   divFormElement.style.display = displayStyle;
 };
 
-const displayBugData = (bugData) => {
+const displayNewBugData = (bugData) => {
   if (divNewBugsList === null)
   {
     divNewBugsList = createAndAppendDivElement();
@@ -82,6 +82,39 @@ const displayBugData = (bugData) => {
   const pCommitEl = document.createElement('p');
   pCommitEl.innerHTML = `Id: ${bugData.commit}`;
   divNewBugsList.appendChild(pCommitEl);
+};
+
+/**
+ * Function that displays the features as buttons.
+ * Each feature is represented by a button.
+ * Only one feature can be selected at a time.
+ * This is achieved by using radio buttons and later by changing their appearance as buttons
+ * When one feature is selected, it turns red.
+ * All other feature selection buttons remain blue.
+ *
+ * @param {Array} featuresList - array of features to be displayed
+ */
+const displayFeatureButtons = (featuresList) => {
+  // div element to gropu all the feature radio buttons
+  const divRadioGroupEl = createAndAppendDivElement();
+  divRadioGroupEl.classList.add('radio-toolbar');
+
+  featuresList.forEach((singleFeature) => {
+    // Creating the input radio button
+    const radioElement = document.createElement('input');
+    const radioID = `radio-${singleFeature.name}`;
+    radioElement.setAttribute('type', 'radio');
+    radioElement.setAttribute('name', 'radioFeature');
+    radioElement.setAttribute('id', radioID);
+    radioElement.setAttribute('value', singleFeature.id);
+    divRadioGroupEl.appendChild(radioElement);
+
+    // Creating the label for the radio button
+    const radioLabelElement = document.createElement('label');
+    radioLabelElement.setAttribute('for', radioID);
+    radioLabelElement.innerText = singleFeature.name;
+    divRadioGroupEl.appendChild(radioLabelElement);
+  });
 };
 
 /**
@@ -106,7 +139,7 @@ const postNewBug = () => {
 
       // After getting the response, hide the form elements and show the list of bugs
       clearAndToggleNewBugForm('none');
-      displayBugData(response.data);
+      displayNewBugData(response.data);
     })
     .catch((error) => {
       console.log(error);
@@ -118,7 +151,13 @@ const postNewBug = () => {
  * to create button representing each feature
  */
 const getAllFeaturesElement = () => {
-
+  axios.get('/getAllFeatures')
+    .then((response) => {
+      displayFeatureButtons(response.data);
+    })
+    .catch((err) => {
+      console.log(err.response.data);
+    });
 };
 
 /**

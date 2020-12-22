@@ -14,8 +14,8 @@ export default function features(dbModels) {
     console.log('getAllFeatures');
     dbModels.Feature.findAll()
       .then((returnedFeatures) => {
-        console.log(returnedFeatures.toJSON());
-        response.send(returnedFeatures.toJSON());
+        console.log(returnedFeatures);
+        response.send(returnedFeatures);
       })
       .catch((err) => {
         console.log(err);

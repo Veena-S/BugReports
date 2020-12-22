@@ -1,0 +1,38 @@
+/**
+Hide the actual circular radio buttons themselves.
+Here it is done by adjusting opacity and width, instead of making 
+"display: none". This is because, hiding the element means, those buttons
+will become unfocusable and unable to be navigated via the keyboard.
+Reference: https://markheath.net/post/customize-radio-button-css
+*/
+.radio-toolbar input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+/** Modify the look of radio buttons in their unselected state */
+.radio-toolbar label {
+  display: inline-block;
+  background-color: midnightblue;
+  padding: 10px 20px;
+  border: 2px solid rgb(25, 25, 152);
+  margin: 2px;
+  color: aliceblue;
+}
+
+/*
+Style the selected one differently
+Need to use the :checked selector and the “adjacent sibling” selector (+ sign). 
+So this CSS rule applies to any label that immediately follows a checked radio button.
+*/
+.radio-toolbar input[type="radio"]:checked + label {
+  background-color: darkred;
+  border-color: rgb(59, 3, 3);
+}
+
+/* to change the appearance when a button has focus*/
+/* .radio-toolbar input[type="radio"]:focus + label {
+  background-color: rgb(4, 59, 46);
+  border-color: rgb(16, 51, 34);
+} */
