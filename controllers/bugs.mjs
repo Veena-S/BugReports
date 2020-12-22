@@ -14,9 +14,13 @@ export default function bugs(dbModels) {
    */
   const createNewBug = ((request, response) => {
     console.log('createNewBug');
-    const { problem, errorText, commit } = request.body;
-    console.log(`Request: ${problem}, ${errorText}, ${commit}`);
-    dbModels.Bug.create({ problem, errorText, commit })
+    const {
+      problem, errorText, commit, FeatureId,
+    } = request.body;
+    console.log(`Request: ${problem}, ${errorText}, ${commit}, ${FeatureId}`);
+    dbModels.Bug.create({
+      problem, errorText, commit, FeatureId,
+    })
       .then((newBug) => {
         const newBugData = newBug.toJSON();
         console.log(newBugData);

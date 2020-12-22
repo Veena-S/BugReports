@@ -3,6 +3,8 @@
 let divFormElement = null;
 // To hold the list of newly created bugs.
 let divNewBugsList = null;
+// To hold the radio buttons for features
+let divRadioGroupEl = null;
 
 /**
  * Function to create a new "div" element and returns the same.
@@ -60,6 +62,8 @@ const clearAndToggleNewBugForm = (displayStyle) => {
   document.getElementById('error-text').value = '';
   document.getElementById('git-commit').value = '';
   divFormElement.style.display = displayStyle;
+
+  divRadioGroupEl.style.display = displayStyle;
 };
 
 const displayNewBugData = (bugData) => {
@@ -71,16 +75,20 @@ const displayNewBugData = (bugData) => {
   pIDEl.innerHTML = `Id: ${bugData.id}`;
   divNewBugsList.appendChild(pIDEl);
 
+  const pFeatureIDEl = document.createElement('p');
+  pFeatureIDEl.innerHTML = `Feature Id: ${bugData.FeatureId}`;
+  divNewBugsList.appendChild(pFeatureIDEl);
+
   const pProblemEl = document.createElement('p');
   pProblemEl.innerHTML = `Problem: ${bugData.problem}`;
   divNewBugsList.appendChild(pProblemEl);
 
   const pErrorEl = document.createElement('p');
-  pErrorEl.innerHTML = `Id: ${bugData.errorText}`;
+  pErrorEl.innerHTML = `Error Text: ${bugData.errorText}`;
   divNewBugsList.appendChild(pErrorEl);
 
   const pCommitEl = document.createElement('p');
-  pCommitEl.innerHTML = `Id: ${bugData.commit}`;
+  pCommitEl.innerHTML = `Commit: ${bugData.commit}`;
   divNewBugsList.appendChild(pCommitEl);
 };
 
@@ -96,10 +104,10 @@ const displayNewBugData = (bugData) => {
  */
 const displayFeatureButtons = (featuresList) => {
   // div element to gropu all the feature radio buttons
-  const divRadioGroupEl = createAndAppendDivElement();
+  divRadioGroupEl = createAndAppendDivElement();
   divRadioGroupEl.classList.add('radio-toolbar');
 
-  featuresList.forEach((singleFeature) => {
+  featuresList.forEach((singleFeature, index) => {
     // Creating the input radio button
     const radioElement = document.createElement('input');
     const radioID = `radio-${singleFeature.name}`;
@@ -107,6 +115,10 @@ const displayFeatureButtons = (featuresList) => {
     radioElement.setAttribute('name', 'radioFeature');
     radioElement.setAttribute('id', radioID);
     radioElement.setAttribute('value', singleFeature.id);
+    if (index === 0)
+    {
+      radioElement.checked = true;
+    }
     divRadioGroupEl.appendChild(radioElement);
 
     // Creating the label for the radio button
@@ -127,8 +139,9 @@ const postNewBug = () => {
     problem: document.getElementById('problem-desc').value,
     errorText: document.getElementById('error-text').value,
     commit: document.getElementById('git-commit').value,
+    FeatureId: document.querySelector('input[name="radioFeature"]:checked').value,
   };
-
+  console.log(data);
   // Make the POST request to create the Bug
   axios.post('/createBug', data)
     .then((response) => {
@@ -164,10 +177,6 @@ const getAllFeaturesElement = () => {
  * Function to create all the elements to submit a new bug
  */
 const createNewBugForm = () => {
-  // When a form renders to create a bug,
-  // make a request to the database to get the list of all features.
-  const divFeatureElement = getAllFeaturesElement();
-
   if (divFormElement === null)
   {
     divFormElement = createAndAppendDivElement();
@@ -176,6 +185,9 @@ const createNewBugForm = () => {
     clearAndToggleNewBugForm('block');
     return divFormElement;
   }
+  // When a form renders to create a bug,
+  // make a request to the database to get the list of all features.
+  getAllFeaturesElement();
   // Create problem elemet
   const problemEl = createInputTextElement('Problem: ', 'problem-desc');
   divFormElement.appendChild(problemEl);
