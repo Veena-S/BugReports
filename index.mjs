@@ -16,9 +16,13 @@ app.use(express.static('public'));
 
 app.use(methodOverride('_method'));
 
+// This is to accept POST request send through Axios.
+// This tells the Express the request bosy is send as JSON
+app.use(express.json());
+
 // set the routes
 routes( app );
 
 const PORT = process.env.PORT || 3004;
-
+console.log(PORT);
 app.listen(PORT);
