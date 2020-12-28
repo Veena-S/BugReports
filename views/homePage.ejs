@@ -8,6 +8,13 @@
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      /*For passing the ejs variable value to a script. Should use '<%#- %>not <%#=%>*/
+
+      let isUserLoggedIn = <%- isUserLoggedIn%>;
+    </script>
+    <script  src="helperScript.js" > </script>
+    <script  src="loginScript.js" > </script>
     <script  src="script.js" > </script>
   </body>
 </html>

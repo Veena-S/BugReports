@@ -11,7 +11,11 @@ export default function root() {
    */
   const getHomePage = ((request, response) => {
     console.log('getHomePage');
-    response.render('homePage');
+    if (request.isUserLoggedIn)
+    {
+      console.log('User is already logged in');
+    }
+    response.render('homePage', { isUserLoggedIn: request.isUserLoggedIn });
   });
 
   // The root() function wil return the functions defined

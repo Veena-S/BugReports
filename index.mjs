@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 
 import routes from './routes.mjs';
+// import { authenticateRequestUsingCookies } from './controllers/userValidator.mjs';
 
 const app = express();
 
@@ -20,8 +21,14 @@ app.use(methodOverride('_method'));
 // This tells the Express the request bosy is send as JSON
 app.use(express.json());
 
+// app.use(authenticateRequestUsingCookies);
+// error handler for the throw from authentication
+app.use((err, req, res, next) => {
+  res.status(400).send(`Failed. ${err.message}`);
+});
+
 // set the routes
-routes( app );
+routes(app);
 
 const PORT = process.env.PORT || 3004;
 console.log(PORT);
